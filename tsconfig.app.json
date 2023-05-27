@@ -6,7 +6,9 @@
         "composite": true,
         "baseUrl": ".",
         "paths": {
-            "@/*": ["./src/*"]
+            "comps/*": ["./src/components/*"],
+            "routes/*": ["./src/router/*"],
+            "views/*": ["./src/views/*"]
         }
     }
 }
