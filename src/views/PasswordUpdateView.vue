@@ -1,5 +1,5 @@
 <script setup lang="ts"></script>
 
-<template><div>home</div></template>
+<template><div>update</div></template>
 
 <style scoped></style>
