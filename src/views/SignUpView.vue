@@ -1,5 +1,71 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref } from 'vue'
+import FormTemplate from 'comps/forms/FormTemplate.vue'
+import InputGenericTypes from 'comps/forms/InputGenericTypes.vue'
+import InputSubmit from 'comps/forms/InputSubmit.vue'
 
-<template><div>signup</div></template>
+const firstName = ref()
+const lastName = ref()
+const email = ref()
+const password = ref()
+const confirmPassword = ref()
+
+function signUp() {}
+</script>
+
+<template>
+    <div>
+        <FormTemplate @submit.prevent="signUp">
+            <template v-slot:one>
+                <InputGenericTypes
+                    ref="firstName"
+                    :label="'Nome'"
+                    :type="'name'"
+                    :placeholder="'Example'"
+                />
+            </template>
+
+            <template v-slot:two>
+                <InputGenericTypes
+                    ref="lastName"
+                    :label="'Sobrenome'"
+                    :type="'name'"
+                    :placeholder="'E. Example'"
+                />
+            </template>
+
+            <template v-slot:three>
+                <InputGenericTypes
+                    ref="email"
+                    :label="'Email'"
+                    :type="'email'"
+                    :placeholder="'email@example.com'"
+                />
+            </template>
+
+            <template v-slot:four>
+                <InputGenericTypes
+                    ref="password"
+                    :label="'Senha'"
+                    :type="'password'"
+                    :placeholder="'*********'"
+                />
+            </template>
+
+            <template v-slot:five>
+                <InputGenericTypes
+                    ref="confirmPassword"
+                    :label="'Confirme a Senha'"
+                    :type="'password'"
+                    :placeholder="'*********'"
+                />
+            </template>
+
+            <template v-slot:six>
+                <InputSubmit :label="'inscrever-se'" />
+            </template>
+        </FormTemplate>
+    </div>
+</template>
 
 <style scoped></style>
