@@ -1,11 +1,11 @@
 import axios, { AxiosError, type AxiosResponse } from 'axios'
 
 export default class AxiosMethods {
-    public static async get({ url, headers }: Request): Promise<Response> {
+    public static async get<R = object>({ url, headers }: Request): Promise<R & Response> {
         return axios.get(url, { headers }).then(hasThen).catch(hasCatch)
     }
 
-    public static async post({ url, data, headers }: Request): Promise<Response> {
+    public static async post<R = object>({ url, data, headers }: Request): Promise<R & Response> {
         return axios.post(url, data, { headers }).then(hasThen).catch(hasCatch)
     }
 
