@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import router from 'routes/index'
+import AlertMessage from 'utils/alert.message'
+import SessionStorage from 'utils/session.storage'
+import SessionService from 'services/session/session.service'
 import FormTemplate from 'comps/forms/FormTemplate.vue'
 import InputGenericTypes from 'comps/forms/InputGenericTypes.vue'
 import InputCheckBoxVue from 'comps/forms/InputCheckBox.vue'
@@ -12,7 +16,20 @@ const email = ref()
 const password = ref()
 const checkbox = ref()
 
-function signIn() {}
+async function signIn() {
+    const { message, status, token } = await SessionService.signIn({
+        email: email.value.data,
+        password: password.value.data
+    })
+
+    if (status === 201) {
+        SessionStorage.setToken(token)
+
+        return router.push({ name: 'profile' })
+    } else {
+        AlertMessage.showAlertWithTimer(message, 'warning')
+    }
+}
 </script>
 
 <template>
