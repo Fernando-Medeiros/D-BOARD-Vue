@@ -3,16 +3,16 @@ import { ref } from 'vue'
 
 defineProps<{ label: string; placeholder: string; type: string }>()
 
-const inputData = ref()
+const data = ref()
 
-defineExpose({ inputData })
+defineExpose({ data })
 </script>
 
 <template>
     <span>
         <label :for="label">{{ label }}</label>
         <input
-            v-model="inputData"
+            v-model="data"
             :type="type"
             :autocomplete="type"
             :placeholder="placeholder"

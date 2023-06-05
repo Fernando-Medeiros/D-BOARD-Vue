@@ -3,14 +3,14 @@ import { ref } from 'vue'
 
 defineProps<{ label: string }>()
 
-const inputData = ref(false)
+const data = ref(false)
 
-defineExpose({ inputData })
+defineExpose({ data })
 </script>
 
 <template>
     <div>
-        <input v-model="inputData" type="checkbox" />
+        <input v-model="data" type="checkbox" />
         <label :for="label">{{ label }}</label>
     </div>
 </template>
