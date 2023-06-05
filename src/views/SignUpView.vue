@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import router from 'routes/index'
+import AlertMessage from 'utils/alert.message'
+import CustomerService from 'services/customer/customer.service'
 import FormTemplate from 'comps/forms/FormTemplate.vue'
 import InputGenericTypes from 'comps/forms/InputGenericTypes.vue'
 import InputSubmit from 'comps/forms/InputSubmit.vue'
@@ -10,7 +13,20 @@ const email = ref()
 const password = ref()
 const confirmPassword = ref()
 
-function signUp() {}
+async function signUp() {
+    const { message, status } = await CustomerService.signUp({
+        email: email.value.data,
+        firstName: firstName.value.data,
+        lastName: lastName.value.data,
+        password: password.value.data
+    })
+
+    if (status === 201) {
+        return router.push({ name: 'signin' })
+    } else {
+        AlertMessage.showAlertWithTimer(message, 'warning')
+    }
+}
 </script>
 
 <template>
