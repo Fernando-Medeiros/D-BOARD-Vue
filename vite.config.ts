@@ -12,6 +12,7 @@ export default defineConfig({
             libs: fileURLToPath(new URL('./src/core/libs', import.meta.url)),
             routes: fileURLToPath(new URL('./src/router', import.meta.url)),
             services: fileURLToPath(new URL('./src/core/services', import.meta.url)),
+            utils: fileURLToPath(new URL('./src/core/utils', import.meta.url)),
             views: fileURLToPath(new URL('./src/views', import.meta.url))
         }
     }

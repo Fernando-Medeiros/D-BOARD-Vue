@@ -10,6 +10,7 @@
             "libs/*": ["./src/core/libs/*"],
             "routes/*": ["./src/router/*"],
             "services/*": ["./src/core/services/*"],
+            "utils/*": ["./src/core/utils/*"],
             "views/*": ["./src/views/*"]
         }
     }
