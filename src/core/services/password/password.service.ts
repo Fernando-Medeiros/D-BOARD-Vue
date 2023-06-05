@@ -1,6 +1,6 @@
 import AxiosMethods from 'libs/axios'
 
-const API = String(process.env.VITE_API_PASSWORD)
+const API = String(import.meta.env.VITE_API_PASSWORD)
 
 export default class PasswordService {
     public static async recover(form: RecoverPasswordDto) {
