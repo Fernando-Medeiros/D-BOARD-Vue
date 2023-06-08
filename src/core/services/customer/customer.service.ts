@@ -1,4 +1,5 @@
 import AxiosMethods from 'libs/axios'
+import getAuthorizationHeader from '../utils/headers/authorization.header'
 
 const API = String(import.meta.env.VITE_API_CUSTOMER)
 
@@ -9,24 +10,28 @@ export default class CustomerService {
         const L = query.limit || 5
 
         return AxiosMethods.get<FindCustomerResponseDto>({
-            url: API.concat('/find', '?sort=' + S, '?order=' + O, '?limit=' + L)
+            url: API.concat('/find', '?sort=' + S, '?order=' + O, '?limit=' + L),
+            headers: getAuthorizationHeader()
         })
     }
 
     public static async getOwn() {
-        return AxiosMethods.get<GetCustomerResponseDto>({ url: API })
+        return AxiosMethods.get<GetCustomerResponseDto>({
+            url: API,
+            headers: getAuthorizationHeader()
+        })
     }
 
     public static async signUp(form: CreateCustomerDto) {
-        return AxiosMethods.post({ url: API, data: form })
+        return AxiosMethods.post({ url: API, data: form, headers: getAuthorizationHeader() })
     }
 
     public static async update(form: UpdateCustomerDto) {
-        return AxiosMethods.patch({ url: API, data: form })
+        return AxiosMethods.patch({ url: API, data: form, headers: getAuthorizationHeader() })
     }
 
     public static async remove() {
-        return AxiosMethods.delete({ url: API })
+        return AxiosMethods.delete({ url: API, headers: getAuthorizationHeader() })
     }
 }
 

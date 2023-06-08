@@ -1,4 +1,5 @@
 import AxiosMethods from 'libs/axios'
+import getAuthorizationHeader from '../utils/headers/authorization.header'
 
 const API = String(import.meta.env.VITE_API_PASSWORD)
 
@@ -12,7 +13,7 @@ export default class PasswordService {
     }
 
     public static async update(form: UpdatePasswordDto) {
-        return AxiosMethods.patch({ url: API, data: form })
+        return AxiosMethods.patch({ url: API, data: form, headers: getAuthorizationHeader() })
     }
 }
 
