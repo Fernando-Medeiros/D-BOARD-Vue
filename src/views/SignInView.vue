@@ -22,7 +22,7 @@ async function signIn() {
         password: password.value.data
     })
 
-    if (status === 201) {
+    if (status === 200) {
         SessionStorage.setToken(token)
 
         return router.push({ name: 'profile' })

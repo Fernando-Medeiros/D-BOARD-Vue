@@ -12,7 +12,7 @@ const email = ref()
 async function recoverPassword() {
     const { message, status } = await PasswordService.recover({ email: email.value.data })
 
-    if (status === 201) {
+    if (status === 200) {
         AlertMessage.showAlertWithTimer(message, 'success')
         return router.push({ name: 'signin' })
     } else {
