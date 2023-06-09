@@ -7,6 +7,7 @@
         "baseUrl": ".",
         "paths": {
             "comps/*": ["./src/components/*"],
+            "composable/*": ["./src/composable/*"],
             "libs/*": ["./src/core/libs/*"],
             "routes/*": ["./src/router/*"],
             "services/*": ["./src/core/services/*"],
