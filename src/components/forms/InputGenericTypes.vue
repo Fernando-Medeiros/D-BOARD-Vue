@@ -1,30 +1,44 @@
 <script setup lang="ts">
+import type { Fn } from '@vueuse/shared'
 import { ref } from 'vue'
 
-defineProps<{ label: string; placeholder: string; type: string }>()
+defineProps<{
+    label: string
+    type: string
+    placeholder: string
+    required?: boolean
+    autocomplete?: string
+    rules?: Fn
+}>()
 
-const data = ref()
+const data = ref('')
 
 defineExpose({ data })
 </script>
 
 <template>
-    <span>
+    <div>
         <label :for="label">{{ label }}</label>
+
         <input
             v-model="data"
             :type="type"
-            :autocomplete="type"
             :placeholder="placeholder"
-            :required="true"
+            :required="required"
+            :autocomplete="autocomplete ?? type"
         />
-    </span>
+
+        <span v-if="rules">{{ rules() }}</span>
+    </div>
 </template>
 
 <style scoped>
-span {
+div {
     display: grid;
-    gap: 1.5rem;
+    gap: 0.5rem;
+}
+span {
+    color: tomato;
 }
 input {
     width: 100%;
@@ -39,8 +53,5 @@ input {
 input:focus {
     color: black;
     background-color: #d9d9d9;
-}
-
-@media (max-width: 780px) {
 }
 </style>
