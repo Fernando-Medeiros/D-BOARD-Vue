@@ -2,11 +2,13 @@
 import { ref } from 'vue'
 import router from 'routes/index'
 import AlertMessage from 'utils/alert.message'
+import InputRegex from 'utils/input.regex'
 import CustomerService from 'services/customer/customer.service'
 import FormTemplate from 'comps/forms/FormTemplate.vue'
 import InputGenericTypes from 'comps/forms/InputGenericTypes.vue'
 import InputSubmit from 'comps/forms/InputSubmit.vue'
 
+const submitForm = ref(false)
 const firstName = ref()
 const lastName = ref()
 const email = ref()
@@ -14,6 +16,12 @@ const password = ref()
 const confirmPassword = ref()
 
 async function signUp() {
+    if (submitForm.value === false)
+        return AlertMessage.showAlertWithTimer(
+            'Dados inválidos, preencha corretamente o formulário',
+            'warning'
+        )
+
     const { message, status } = await CustomerService.signUp({
         email: email.value.data,
         firstName: firstName.value.data,
@@ -27,6 +35,38 @@ async function signUp() {
         AlertMessage.showAlertWithTimer(message, 'warning')
     }
 }
+
+function firstNameRules(): string {
+    const { result, msg } = InputRegex.testFirstName(firstName.value?.data)
+    submitForm.value = result
+    return firstName.value?.data && result === false ? msg : ''
+}
+
+function lastNameRules(): string {
+    const { result, msg } = InputRegex.testLastName(lastName.value?.data)
+    submitForm.value = result
+    return lastName.value?.data && result === false ? msg : ''
+}
+
+function emailRules(): string {
+    const { result, msg } = InputRegex.testEmail(email.value?.data)
+    submitForm.value = result
+    return email.value?.data && result === false ? msg : ''
+}
+
+function passwordRules(): string {
+    const { result, msg } = InputRegex.testPassword(password.value?.data)
+    submitForm.value = result
+    return password.value?.data && result === false ? msg : ''
+}
+
+function confirmPasswordRules(): string {
+    const result = confirmPassword.value?.data === password.value?.data
+    submitForm.value = result
+    return confirmPassword.value?.data && result === false
+        ? 'Confirme a senha, elas devem ser idênticas.'
+        : ''
+}
 </script>
 
 <template>
@@ -38,6 +78,8 @@ async function signUp() {
                     :label="'Nome'"
                     :type="'name'"
                     :placeholder="'Example'"
+                    :required="true"
+                    :rules="firstNameRules"
                 />
             </template>
 
@@ -47,6 +89,8 @@ async function signUp() {
                     :label="'Sobrenome'"
                     :type="'name'"
                     :placeholder="'E. Example'"
+                    :required="true"
+                    :rules="lastNameRules"
                 />
             </template>
 
@@ -56,6 +100,8 @@ async function signUp() {
                     :label="'Email'"
                     :type="'email'"
                     :placeholder="'email@example.com'"
+                    :required="true"
+                    :rules="emailRules"
                 />
             </template>
 
@@ -65,6 +111,9 @@ async function signUp() {
                     :label="'Senha'"
                     :type="'password'"
                     :placeholder="'*********'"
+                    :autocomplete="'new-password'"
+                    :required="true"
+                    :rules="passwordRules"
                 />
             </template>
 
@@ -74,6 +123,9 @@ async function signUp() {
                     :label="'Confirme a Senha'"
                     :type="'password'"
                     :placeholder="'*********'"
+                    :autocomplete="'new-password'"
+                    :required="true"
+                    :rules="confirmPasswordRules"
                 />
             </template>
 
