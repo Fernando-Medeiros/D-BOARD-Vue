@@ -1,14 +1,9 @@
 <script setup lang="ts">
-import { onBeforeMount, ref } from 'vue'
+import { ref } from 'vue'
 import router from 'routes/index'
 import AlertMessage from 'utils/alert.message'
 import PasswordService from 'services/password/password.service'
 import FormTemplate from 'comps/forms/FormTemplate.vue'
-
-onBeforeMount(() => {
-    const { token } = router.currentRoute.value.query
-    if (String(token).length < 110) return router.push({ name: 'signin' })
-})
 
 const form = ref()
 
