@@ -30,6 +30,7 @@ async function recoverPassword() {
                     :label="'Email'"
                     :type="'email'"
                     :placeholder="'email@example.com'"
+                    :required="true"
                 />
             </template>
 
