@@ -1,23 +1,30 @@
 <script setup lang="ts">
 import { onBeforeMount, ref } from 'vue'
-import { useRoute } from 'vue-router'
 import router from 'routes/index'
 import AlertMessage from 'utils/alert.message'
+import InputRegex from 'utils/input.regex'
 import PasswordService from 'services/password/password.service'
 import FormTemplate from 'comps/forms/FormTemplate.vue'
 import InputGenericTypes from 'comps/forms/InputGenericTypes.vue'
 import InputSubmit from 'comps/forms/InputSubmit.vue'
 
 onBeforeMount(() => {
-    const { token } = useRoute().query
+    const { token } = router.currentRoute.value.query
     if (String(token).length < 110) return router.push({ name: 'signin' })
 })
 
+const submitForm = ref(false)
 const password = ref()
 const confirmPassword = ref()
 
 async function resetPassword() {
-    const { token } = useRoute().query
+    if (submitForm.value === false)
+        return AlertMessage.showAlertWithTimer(
+            'Dados inválidos, preencha corretamente o formulário',
+            'warning'
+        )
+
+    const { token } = router.currentRoute.value.query
 
     const { message, status } = await PasswordService.reset(String(token), {
         password: password.value.data
@@ -28,6 +35,20 @@ async function resetPassword() {
     } else {
         AlertMessage.showAlertWithTimer(message, 'warning')
     }
+}
+
+function passwordRules(): string {
+    const { result, msg } = InputRegex.testPassword(password.value?.data)
+    submitForm.value = result
+    return password.value?.data && result === false ? msg : ''
+}
+
+function confirmPasswordRules(): string {
+    const result = confirmPassword.value?.data === password.value?.data
+    submitForm.value = result
+    return confirmPassword.value?.data && result === false
+        ? 'Confirme a senha, elas devem ser idênticas.'
+        : ''
 }
 </script>
 
@@ -40,6 +61,9 @@ async function resetPassword() {
                     :label="'Senha'"
                     :type="'password'"
                     :placeholder="'*********'"
+                    :autocomplete="'new-password'"
+                    :required="true"
+                    :rules="passwordRules"
                 />
             </template>
 
@@ -49,6 +73,9 @@ async function resetPassword() {
                     :label="'Confirme a Senha'"
                     :type="'password'"
                     :placeholder="'*********'"
+                    autocomplete="'new-password'"
+                    :required="true"
+                    :rules="confirmPasswordRules"
                 />
             </template>
 
@@ -58,5 +85,3 @@ async function resetPassword() {
         </FormTemplate>
     </div>
 </template>
-
-<style scoped></style>
