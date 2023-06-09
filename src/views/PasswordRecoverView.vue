@@ -4,13 +4,11 @@ import router from 'routes/index'
 import AlertMessage from 'utils/alert.message'
 import PasswordService from 'services/password/password.service'
 import FormTemplate from 'comps/forms/FormTemplate.vue'
-import InputGenericTypes from 'comps/forms/InputGenericTypes.vue'
-import InputSubmit from 'comps/forms/InputSubmit.vue'
 
-const email = ref()
+const form = ref()
 
 async function recoverPassword() {
-    const { message, status } = await PasswordService.recover({ email: email.value.data })
+    const { message, status } = await PasswordService.recover({ email: form.value.email.data })
 
     if (status === 200) {
         AlertMessage.showAlertWithTimer(message, 'success')
@@ -23,22 +21,11 @@ async function recoverPassword() {
 
 <template>
     <div>
-        <FormTemplate @submit.prevent="recoverPassword">
-            <template v-slot:one>
-                <InputGenericTypes
-                    ref="email"
-                    :label="'Email'"
-                    :type="'email'"
-                    :placeholder="'email@example.com'"
-                    :required="true"
-                />
-            </template>
-
-            <template v-slot:two>
-                <InputSubmit :label="'enviar'" />
-            </template>
-        </FormTemplate>
+        <FormTemplate
+            ref="form"
+            @submit.prevent="recoverPassword"
+            :expose-email="true"
+            :expose-submit="{ label: 'enviar' }"
+        />
     </div>
 </template>
-
-<style scoped></style>
