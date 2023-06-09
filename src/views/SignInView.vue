@@ -41,6 +41,7 @@ async function signIn() {
                     :label="'Email'"
                     :type="'email'"
                     :placeholder="'email@example.com'"
+                    :required="true"
                 />
             </template>
 
@@ -50,6 +51,7 @@ async function signIn() {
                     :label="'Senha'"
                     :type="'password'"
                     :placeholder="'*********'"
+                    :required="true"
                 />
             </template>
 
