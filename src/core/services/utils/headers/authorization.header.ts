@@ -1,7 +1,7 @@
-import SessionStorage from 'utils/session.storage'
+import { useSessionGlobalState } from 'composable/useGlobalStates'
 
 export default function getAuthorizationHeader() {
-    const token = SessionStorage.getToken()
+    const token = useSessionGlobalState().value
     return {
         authorization: 'bearer '.concat(token)
     }

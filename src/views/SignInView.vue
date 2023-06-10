@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useSessionGlobalState } from 'composable/useGlobalStates'
 import router from 'routes/index'
 import AlertMessage from 'utils/alert.message'
-import SessionStorage from 'utils/session.storage'
 import SessionService from 'services/session/session.service'
 import FormTemplate from 'comps/forms/FormTemplate.vue'
 
@@ -15,7 +15,7 @@ async function signIn() {
     })
 
     if (status === 200) {
-        SessionStorage.setToken(token)
+        useSessionGlobalState().value = token
 
         return router.push({ name: 'profile' })
     } else {
