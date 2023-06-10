@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import HeaderComp from 'comps/HeaderComp.vue'
-import FooterComp from 'comps/FooterComp.vue'
+import { useSessionGlobalState } from 'composable/useGlobalStates'
+import HeaderDefault from 'comps/HeaderDefault.vue'
+import HeaderSession from 'comps/HeaderSession.vue'
+import FooterGlobal from 'comps/FooterGlobal.vue'
 </script>
 
 <template>
-    <HeaderComp class="main-container" />
+    <HeaderDefault class="main-container" v-if="!useSessionGlobalState().value" />
+    <HeaderSession class="main-container" v-else />
     <RouterView class="main-container" />
-    <FooterComp class="main-container" />
+    <FooterGlobal class="main-container" />
 </template>
 
 <style>
